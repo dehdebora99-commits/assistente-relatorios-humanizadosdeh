@@ -8,172 +8,203 @@
 *{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f6f2f7;color:#2d2430}
 header{background:linear-gradient(135deg,#8e5a9f,#c28abf);color:white;padding:28px 20px;text-align:center}
 header h1{margin:0;font-size:28px}header p{margin:8px 0 0;font-size:15px;opacity:.95}
-main{max-width:1100px;margin:24px auto;padding:0 16px 40px}.card{background:white;border-radius:18px;padding:22px;margin-bottom:18px;box-shadow:0 6px 18px rgba(70,35,80,.11)}
-label{font-weight:700;display:block;margin:12px 0 6px}input,select,textarea{width:100%;border:1px solid #d8c8dd;border-radius:12px;padding:12px;font-size:15px;font-family:Arial,Helvetica,sans-serif;background:#fff}
-textarea{min-height:105px;resize:vertical;line-height:1.45}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
-.mode-box{display:flex;gap:12px;flex-wrap:wrap;margin-top:8px}.mode{flex:1;min-width:240px;padding:14px;border:2px solid #d8c8dd;border-radius:14px;cursor:pointer;background:#fbf8fc}
+main{max-width:1100px;margin:24px auto;padding:0 16px 40px}
+.card{background:white;border-radius:18px;padding:22px;margin-bottom:18px;box-shadow:0 6px 18px rgba(70,35,80,.11)}
+label{font-weight:700;display:block;margin:12px 0 6px}
+input,select,textarea{width:100%;border:1px solid #d8c8dd;border-radius:12px;padding:12px;font-size:15px;font-family:Arial,Helvetica,sans-serif;background:#fff}
+textarea{min-height:105px;resize:vertical;line-height:1.45}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.mode-box{display:flex;gap:12px;flex-wrap:wrap;margin-top:8px}
+.mode{flex:1;min-width:240px;padding:14px;border:2px solid #d8c8dd;border-radius:14px;cursor:pointer;background:#fbf8fc}
 .mode input{width:auto;margin-right:8px}.mode strong{display:block;margin-bottom:5px}.hidden{display:none}
 button{border:0;border-radius:12px;padding:13px 18px;font-size:15px;font-weight:700;cursor:pointer;margin:6px 6px 6px 0}
 .primary{background:#8e5a9f;color:white}.secondary{background:#eaddec;color:#4a3150}.danger{background:#f2dede;color:#7a2d2d}
 #resultado{min-height:300px;white-space:pre-wrap;line-height:1.65;font-size:15.5px;background:#fff;border:1px solid #d8c8dd;border-radius:14px;padding:18px}
-.notice{background:#fff7d8;border-left:5px solid #e0b63f;padding:12px 14px;border-radius:10px;font-size:14px;line-height:1.45}.small{font-size:13px;color:#6b5a70}
+.notice{background:#fff7d8;border-left:5px solid #e0b63f;padding:12px 14px;border-radius:10px;font-size:14px;line-height:1.45}
+.small{font-size:13px;color:#6b5a70}
 @media(max-width:760px){.grid{grid-template-columns:1fr}header h1{font-size:23px}}
 @media print{body{background:white}header,.no-print,.card.form-card{display:none!important}main{margin:0;max-width:none;padding:0}.card{box-shadow:none;padding:0}#resultado{border:none;padding:0;font-size:12pt}}
 </style>
 </head>
 <body>
-<header><h1>Assistente de Relatórios Humanizados</h1><p>Gera relatórios com escrita profissional, acolhedora e organizada.</p></header>
+<header>
+<h1>Assistente de Relatórios Humanizados</h1>
+<p>Gera relatórios com escrita profissional, acolhedora e organizada.</p>
+</header>
 <main>
 <section class="card form-card">
 <div class="notice">Este sistema não salva os relatórios. O texto fica apenas na tela enquanto você usa e pode ser baixado no seu computador.</div>
-<div class="grid"><div><label for="aluno">Nome do aluno</label><input id="aluno" placeholder="Ex.: João"></div><div><label for="data">Data</label><input id="data" type="date"></div></div>
-<div class="grid"><div><label for="tipo">Tipo de atendimento</label><select id="tipo"><option>Estimulação Precoce</option><option>AEE</option><option>SAE</option><option>SPE</option></select></div>
-<div><label for="genero">Como escrever</label><select id="genero"><option value="o educando">o educando</option><option value="a educanda">a educanda</option><option value="a criança">a criança</option><option value="o aluno">o aluno</option><option value="a aluna">a aluna</option><option value="o estudante">o estudante</option><option value="a estudante">a estudante</option></select></div></div>
-<label>Escolha o modo</label><div class="mode-box">
-<label class="mode"><input type="radio" name="modo" value="areas" checked onchange="trocarModo()"><strong>Modo 1 – Por áreas</strong>Você escreve em cada área e o sistema melhora a escrita.</label>
-<label class="mode"><input type="radio" name="modo" value="livre" onchange="trocarModo()"><strong>Modo 2 – Texto livre</strong>Você escreve tudo junto e o sistema melhora em texto corrido, sem separar por áreas.</label>
-</div></section>
-<section id="modoAreas" class="card form-card"><h2>Modo 1 – Por áreas</h2>
+<div class="grid">
+<div><label for="aluno">Nome do aluno</label><input id="aluno" placeholder="Ex.: João"></div>
+<div><label for="data">Data</label><input id="data" type="date"></div>
+</div>
+<div class="grid">
+<div><label for="tipo">Tipo de atendimento</label><select id="tipo"><option>Estimulação Precoce</option><option>AEE</option><option>SAE</option><option>SPE</option></select></div>
+<div><label for="genero">Como escrever</label><select id="genero"><option value="o educando">o educando</option><option value="a educanda">a educanda</option><option value="a criança">a criança</option><option value="o aluno">o aluno</option><option value="a aluna">a aluna</option><option value="o estudante">o estudante</option><option value="a estudante">a estudante</option></select></div>
+</div>
+<label>Escolha o modo</label>
+<div class="mode-box">
+<label class="mode"><input type="radio" name="modo" value="areas" checked onchange="trocarModo()"><strong>Modo 1 – Por áreas</strong>Você escreve em cada área e o sistema reescreve mantendo a ideia.</label>
+<label class="mode"><input type="radio" name="modo" value="livre" onchange="trocarModo()"><strong>Modo 2 – Texto livre</strong>Você escreve tudo junto e o sistema reescreve em texto corrido, sem separar por áreas.</label>
+</div>
+</section>
+
+<section id="modoAreas" class="card form-card">
+<h2>Modo 1 – Por áreas</h2>
 <label>Socialização</label><textarea id="socializacao" placeholder="Ex.: entrou agitado, não quis dividir brinquedos, depois aceitou com ajuda..."></textarea>
 <label>Linguagem</label><textarea id="linguagem" placeholder="Ex.: falou poucas palavras, respondeu com gestos, dificuldade em alguns fonemas..."></textarea>
 <label>Cognição</label><textarea id="cognicao" placeholder="Ex.: não reconheceu cores, fez pareamento, montou quebra-cabeça..."></textarea>
 <label>Autocuidados</label><textarea id="autocuidados" placeholder="Ex.: guardou materiais, lavou as mãos com ajuda, usa fralda..."></textarea>
 <label>Motora</label><textarea id="motora" placeholder="Ex.: fez encaixe, dificuldade na pinça, pega do lápis em transição..."></textarea>
 </section>
-<section id="modoLivre" class="card form-card hidden"><h2>Modo 2 – Texto livre</h2>
-<label>Escreva suas observações livremente</label><textarea id="textoLivre" style="min-height:220px" placeholder="Ex.: O aluno demonstrou resistência a algumas propostas, apresentou comunicação reduzida e necessitou de direcionamento durante as interações."></textarea>
-<p class="small">Pode escrever com palavras simples ou até mais diretas. O sistema corrige, suaviza e deixa o texto profissional, sem mencionar áreas.</p></section>
-<section class="card no-print"><button class="primary" onclick="gerarRelatorio()">Gerar relatório</button><button class="secondary" onclick="copiarRelatorio()">Copiar texto</button><button class="secondary" onclick="baixarWord()">Baixar em Word</button><button class="secondary" onclick="baixarPDF()">Baixar em PDF</button><button class="danger" onclick="limparTudo()">Novo relatório / limpar</button></section>
-<section class="card"><h2 class="no-print">Relatório gerado</h2><div id="resultado">O relatório aparecerá aqui.</div></section>
+
+<section id="modoLivre" class="card form-card hidden">
+<h2>Modo 2 – Texto livre</h2>
+<label>Escreva suas observações livremente</label>
+<textarea id="textoLivre" style="min-height:220px" placeholder="Ex.: O aluno demonstrou resistência a algumas propostas, apresentou comunicação reduzida e necessitou de direcionamento durante as interações."></textarea>
+<p class="small">Pode escrever com palavras simples. O sistema preserva a ideia, suaviza os termos e melhora a escrita, sem mencionar áreas.</p>
+</section>
+
+<section class="card no-print">
+<button class="primary" onclick="gerarRelatorio()">Gerar relatório</button>
+<button class="secondary" onclick="copiarRelatorio()">Copiar texto</button>
+<button class="secondary" onclick="baixarWord()">Baixar em Word</button>
+<button class="secondary" onclick="baixarPDF()">Baixar em PDF</button>
+<button class="danger" onclick="limparTudo()">Novo relatório / limpar</button>
+</section>
+
+<section class="card">
+<h2 class="no-print">Relatório gerado</h2>
+<div id="resultado">O relatório aparecerá aqui.</div>
+</section>
 </main>
+
 <script>
-function trocarModo(){const modo=document.querySelector('input[name="modo"]:checked').value;document.getElementById('modoAreas').classList.toggle('hidden',modo!=='areas');document.getElementById('modoLivre').classList.toggle('hidden',modo!=='livre')}
+function trocarModo(){
+ const modo=document.querySelector('input[name="modo"]:checked').value;
+ document.getElementById('modoAreas').classList.toggle('hidden',modo!=='areas');
+ document.getElementById('modoLivre').classList.toggle('hidden',modo!=='livre');
+}
 function limparTexto(txt){return(txt||'').trim().replace(/\s+/g,' ')}
-function nomeArea(area){return{socializacao:'Socialização',linguagem:'Linguagem',cognicao:'Cognição',autocuidados:'Autocuidados',motora:'Motora'}[area]}
 function finalizar(frase){frase=limparTexto(frase);if(!frase)return'';frase=frase.charAt(0).toUpperCase()+frase.slice(1);if(!/[.!?]$/.test(frase))frase+='.';return frase}
+function formatarData(data){const[ano,mes,dia]=data.split('-');return`${dia}/${mes}/${ano}`}
+function nomeArea(area){return{socializacao:'Socialização',linguagem:'Linguagem',cognicao:'Cognição',autocuidados:'Autocuidados',motora:'Motora'}[area]}
+function tem(t,arr){return arr.some(x=>t.includes(x))}
+function dividir(texto){return limparTexto(texto).split(/[,;\n]+| e também | também | além disso |(?<=\.)\s+/i).map(p=>limparTexto(p.replace(/\.$/,''))).filter(Boolean)}
 
-function dividirFrases(texto){
- return limparTexto(texto)
-  .split(/[,;\n]+|(?<=\.)\s+/)
-  .map(p=>limparTexto(p.replace(/\.$/,'')))
-  .filter(Boolean);
+function transformar(frase,sujeito){
+ const original=limparTexto(frase);
+ const t=original.toLowerCase();
+ if(!original)return '';
+
+ // Preserve intenção: cada regra mantém a dificuldade ou informação original, apenas suaviza.
+ if(tem(t,['peste']))return `${sujeito} apresenta comportamentos que desafiam o vínculo relacional durante as propostas, necessitando de mediação constante e estratégias de manejo para favorecer sua participação`;
+ if(tem(t,['terrível','terrivel','insuportável','insuportavel']))return `${sujeito} apresenta demandas significativas de suporte, exigindo intervenções frequentes e abordagem individualizada para favorecer seu engajamento nas propostas`;
+ if(tem(t,['é ruim','e ruim','muito ruim']))return `${sujeito} demonstra dificuldades em diversas habilidades trabalhadas, necessitando de suporte sistemático, mediação constante e continuidade dos estímulos para favorecer seu progresso`;
+ if(tem(t,['é bobo','e bobo','é lento','e lento','burro','não entende nada','nao entende nada']))return `${sujeito} apresenta um ritmo próprio de processamento e compreensão, necessitando de abordagens diferenciadas, repetição e estímulos adequados às suas especificidades para favorecer a aquisição das habilidades trabalhadas`;
+ if(tem(t,['não sabe nada','nao sabe nada']))return `${sujeito} ainda se encontra em processo de construção de diferentes habilidades, demandando acompanhamento contínuo e estímulos frequentes para favorecer sua participação e aprendizagem`;
+ if(tem(t,['não faz nada','nao faz nada']))return `${sujeito} encontra-se em processo de desenvolvimento da autonomia, respondendo às propostas mediante direcionamento e apoio contínuo do mediador, respeitando seu ritmo e suas possibilidades`;
+ if(tem(t,['não consigo nada','nao consigo nada','sem progresso','não evolui','nao evolui']))return `as propostas encontram resistência significativa, sendo necessária a constante adaptação das estratégias para favorecer o engajamento. Observam-se janelas de abertura que indicam potencial a ser explorado com continuidade e consistência do trabalho`;
+ if(tem(t,['impossível trabalhar','impossivel trabalhar']))return `em determinados momentos, ${sujeito} apresenta maior dificuldade para envolver-se nas propostas, necessitando de acolhimento, mediação constante e estratégias diferenciadas para favorecer sua participação`;
+
+ // Socialização / comportamento
+ if(tem(t,['só briga','so briga','briga muito','brigou','conflito','conflitos']))return `observa-se dificuldade na regulação emocional e nas interações com pares, com episódios de conflito que necessitam de mediação imediata e estratégias de manejo do comportamento`;
+ if(tem(t,['só chora','so chora','chorou','choro']))return `${sujeito} expressa desconforto por meio do choro em alguns momentos, necessitando de acolhimento e mediação para reorganizar-se emocionalmente`;
+ if(tem(t,['agitado','correndo','inquieto']))return `${sujeito} apresentou-se mais agitado no início do atendimento, necessitando de mediação para organizar-se e envolver-se gradativamente nas propostas`;
+ if(tem(t,['teimoso','teimosa']))return `em alguns momentos, ${sujeito} demonstra resistência às propostas e preferência por conduzir as atividades conforme seus interesses, necessitando de mediação para ampliar a flexibilidade e a participação`;
+ if(tem(t,['não quis fazer','nao quis fazer','não queria fazer','nao queria fazer','recusou','resistiu']))return `${sujeito} demonstrou resistência às propostas, sendo necessária a adaptação das estratégias para favorecer o engajamento e a participação`;
+ if(tem(t,['não quis sentar','nao quis sentar','não para sentado','nao para sentado']))return `${sujeito} apresentou resistência inicial em permanecer sentado, habilidade que segue sendo trabalhada de forma gradual, respeitando seu tempo e suas possibilidades`;
+ if(tem(t,['não quis dividir','nao quis dividir','não divide','nao divide','dividir','compartilhar']))return `${sujeito} apresenta dificuldade em compartilhar espaços e materiais de forma coletiva, necessitando de mediação para ampliar a flexibilidade e as trocas sociais`;
+ if(tem(t,['esperar a vez','aguardar a vez','aguardar sua vez']))return `${sujeito} encontra dificuldade em aguardar sua vez durante as propostas, necessitando de mediação para favorecer a organização e o respeito aos combinados`;
+ if(tem(t,['bate','bateu','empurra','empurrou','morde','mordeu','agressivo','agressiva']))return `${sujeito} expressa-se, em determinadas situações, por meio de ações físicas, necessitando de mediação imediata e estratégias de regulação emocional para favorecer formas mais adequadas de interação`;
+ if(tem(t,['regras','regra','limite','limites','desobediente']))return `${sujeito} apresenta dificuldade em aceitar alguns combinados e limites, necessitando de retomadas frequentes, rotina estruturada e mediação durante as propostas`;
+ if(tem(t,['desligado','distraído','distraido','sem foco']))return `${sujeito} distrai-se com facilidade, necessitando de apoio, retomadas e estímulos direcionados para manter-se envolvido nas propostas`;
+ if(tem(t,['timido','tímido','isolado','isolada','sozinho']))return `${sujeito} demonstra maior reserva nas interações, necessitando de estímulos graduais para ampliar a convivência social, as trocas afetivas e o reconhecimento do outro`;
+
+ // Linguagem
+ if(tem(t,['não fala quase nada','nao fala quase nada','fala quase nada']))return `${sujeito} apresenta repertório verbal reduzido, com comunicação funcional em desenvolvimento. Observa-se resposta a estímulos direcionados, sendo indicada a continuidade de propostas que ampliem as possibilidades comunicativas`;
+ if(tem(t,['não fala','nao fala','sem fala']))return `${sujeito} apresenta comunicação verbal ainda em desenvolvimento, utilizando outras formas de expressão e necessitando de propostas que ampliem suas possibilidades comunicativas`;
+ if(tem(t,['falou pouco','fala pouco','poucas palavras','comunicação reduzida','comunicacao reduzida']))return `${sujeito} apresenta repertório verbal em ampliação, utilizando poucas palavras espontaneamente e demonstrando comunicação funcional em desenvolvimento`;
+ if(tem(t,['palavr','xing']))return `${sujeito} reproduz algumas expressões inadequadas ao contexto, sendo importante a continuidade de propostas que favoreçam a ampliação do repertório comunicativo e o uso funcional da linguagem`;
+ if(tem(t,['gesto','gestos','aponta','apontou']))return `${sujeito} utiliza gestos como forma de expressão, demonstrando intenção comunicativa durante as interações`;
+ if(tem(t,['vocalização','vocalizacao','vocalizações','vocalizacoes']))return `${sujeito} utiliza vocalizações como forma de expressão, demonstrando intenção comunicativa e necessidade de continuidade dos estímulos voltados à comunicação funcional`;
+ if(tem(t,['fonema','pronúncia','pronuncia','fala embolada']))return `${sujeito} apresenta dificuldade na articulação de alguns fonemas, aspecto que segue em processo de desenvolvimento e estimulação`;
+ if(tem(t,['comando','comandos']))return `${sujeito} responde a comandos simples em alguns momentos, necessitando de repetição, reforço e mediação para ampliar a compreensão das orientações`;
+ if(tem(t,['fala demais','fala muito']))return `${sujeito} externa suas ideias durante grande parte do período, necessitando de mediação para organizar os turnos de fala e favorecer a escuta do outro`;
+
+ // Cognição
+ if(tem(t,['não aprende','nao aprende','não consegue aprender','nao consegue aprender']))return `${sujeito} demonstra dificuldade em compreender e assimilar as habilidades trabalhadas, necessitando de repetição, reforço e estratégias adequadas ao seu ritmo de aprendizagem`;
+ if(tem(t,['aprende devagar','aprende lentamente','devagar','lento']))return `${sujeito} apresenta ritmo próprio de aprendizagem, respondendo melhor mediante direcionamento contínuo, repetição e estímulos concretos`;
+ if(tem(t,['não reconhece as cores','nao reconhece as cores','não sabe as cores','nao sabe as cores','cores','cor']))return `${sujeito} participa das propostas apresentadas e responde aos estímulos direcionados em momentos pontuais. As habilidades relacionadas ao reconhecimento das cores encontram-se em processo de aquisição, necessitando de repetição, reforço e apoio contínuo para favorecer sua consolidação`;
+ if(tem(t,['número','numero','números','numeros','letra','letras','nome']))return `${sujeito} encontra-se em processo de aquisição das habilidades relacionadas a letras e números, necessitando de repetição, reforço e propostas visuais para favorecer a consolidação`;
+ if(tem(t,['pareamento']))return `${sujeito} realizou atividades de pareamento, favorecendo a atenção, a percepção visual e o raciocínio lógico`;
+ if(tem(t,['quebra-cabeça','quebra cabeça','quebra']))return `${sujeito} participou de atividades com quebra-cabeça, demonstrando envolvimento e necessidade de mediação conforme a complexidade da proposta`;
+ if(tem(t,['memória','memoria']))return `${sujeito} participou de propostas envolvendo memória e raciocínio, habilidades que seguem sendo estimuladas de forma gradativa`;
+ if(tem(t,['concreto','visual','abstrato']))return `${sujeito} responde melhor a estímulos concretos e visuais, apresentando maior compreensão quando as propostas são estruturadas e mediadas passo a passo`;
+
+ // Autocuidados, rotina e família
+ if(tem(t,['guardou','guardar','organizou','organizar']))return `${sujeito} colaborou com a organização do ambiente, guardando os materiais ao término das atividades`;
+ if(tem(t,['higiene','sujo','banho','mãos','maos','lavou']))return `${sujeito} necessita de apoio em relação aos hábitos de higiene pessoal, sendo importante a continuidade dos estímulos voltados à autonomia na rotina diária`;
+ if(tem(t,['fralda','fraldas']))return `${sujeito} ainda faz uso de fraldas, sendo importante a continuidade dos estímulos voltados à ampliação da autonomia na rotina diária`;
+ if(tem(t,['desorganizado','desorganizada','relaxado','relaxada']))return `${sujeito} necessita de apoio para organizar seus materiais e sua rotina, apresentando dificuldade em cuidar de seus pertences de forma autônoma`;
+ if(tem(t,['família não','familia não','família nao','familia nao','família ausente','familia ausente']))return `observa-se que a continuidade dos estímulos no ambiente familiar ainda se encontra em construção, sendo recomendada maior aproximação dos responsáveis ao processo para potencializar os ganhos observados`;
+ if(tem(t,['sem rotina','rotina']))return `${sujeito} demonstra maior dificuldade em contextos com menor estruturação, sendo importante a regularidade dos estímulos para favorecer a generalização das habilidades`;
+
+ // Motora
+ if(tem(t,['carrinho','carrinhos']))return `${sujeito} participou de brincadeiras com carrinhos, manipulando os objetos de forma funcional e demonstrando interesse pela proposta`;
+ if(tem(t,['encaixe','encaixes']))return `${sujeito} realizou atividades de encaixe, favorecendo a coordenação motora fina, a atenção e a organização das ações`;
+ if(tem(t,['pinça','pinca']))return `o movimento de pinça encontra-se em processo de desenvolvimento, necessitando de estímulos que favoreçam maior precisão e funcionalidade nas atividades de motricidade fina`;
+ if(tem(t,['tesoura','recorte','recortar']))return `o uso da tesoura e as atividades de recorte seguem em processo de aprimoramento, necessitando de estímulos para maior controle e precisão dos movimentos`;
+ if(tem(t,['lápis','lapis','traçado','tracado']))return `a pega do lápis e o controle do traçado encontram-se em desenvolvimento, sendo importante a continuidade de propostas que favoreçam maior precisão motora`;
+ if(tem(t,['massinha']))return `${sujeito} participou de atividades com massinha, explorando o material e favorecendo estímulos relacionados à força manual, coordenação e criatividade`;
+
+ // fallback preserva a ideia sem copiar literalmente
+ return `observa-se que ${sujeito} apresentou aspectos relacionados à observação registrada, sendo necessário acompanhamento, mediação e propostas estruturadas para favorecer seu desenvolvimento dentro de suas possibilidades`;
 }
 
-function suavizarTermos(texto,sujeito){
- const t=texto.toLowerCase();
- if(t.includes('peste'))return `${sujeito} apresenta comportamentos que desafiam o vínculo relacional durante as propostas, necessitando de mediação constante e estratégias de manejo para favorecer sua participação`;
- if(t.includes('terrível')||t.includes('terrivel'))return `${sujeito} apresenta demandas significativas de suporte, exigindo intervenções frequentes e abordagem individualizada para favorecer seu engajamento nas propostas`;
- if(t.includes('só briga')||t.includes('so briga')||t.includes('briga muito'))return `observa-se dificuldade na regulação emocional e nas interações com pares, com episódios de conflito que necessitam de mediação imediata e estratégias de manejo do comportamento`;
- if(t.includes('não faz nada')||t.includes('nao faz nada'))return `${sujeito} encontra-se em processo de desenvolvimento da autonomia, respondendo às propostas mediante direcionamento e apoio contínuo do mediador, respeitando seu ritmo e suas possibilidades`;
- if(t.includes('não fala quase nada')||t.includes('nao fala quase nada')||t.includes('fala quase nada'))return `${sujeito} apresenta repertório verbal reduzido, com comunicação funcional em desenvolvimento. Observa-se resposta a estímulos direcionados, sendo indicada a continuidade de propostas que ampliem as possibilidades comunicativas`;
- if(t.includes('é ruim')||t.includes('e ruim')||t.includes('muito ruim'))return `${sujeito} demonstra dificuldades em diversas áreas trabalhadas, necessitando de suporte sistemático, mediação constante e continuidade dos estímulos para favorecer seu progresso`;
- if(t.includes('não sabe nada')||t.includes('nao sabe nada'))return `${sujeito} ainda se encontra em processo de construção de diferentes habilidades, necessitando de estímulos frequentes, repetição e apoio contínuo para favorecer sua participação e aprendizagem`;
- if(t.includes('não consegue')||t.includes('nao consegue'))return `${sujeito} demonstra dificuldade na realização de algumas propostas, necessitando de suporte, mediação e estratégias adaptadas ao seu ritmo de desenvolvimento`;
- if(t.includes('teimoso')||t.includes('teimosa'))return `em alguns momentos, ${sujeito} demonstra resistência às propostas e preferência por conduzir as atividades conforme seus interesses, necessitando de mediação para ampliar a flexibilidade e a participação`;
- if(t.includes('preguiçoso')||t.includes('preguiçosa')||t.includes('preguicoso')||t.includes('preguicosa'))return `${sujeito} demonstra menor disponibilidade em alguns momentos, necessitando de incentivo, mediação e propostas motivadoras para ampliar sua participação`;
- if(t.includes('impossível trabalhar')||t.includes('impossivel trabalhar'))return `em determinados momentos, ${sujeito} apresenta maior dificuldade para envolver-se nas propostas, necessitando de acolhimento, mediação constante e estratégias diferenciadas para favorecer sua participação`;
- if(t.includes('só chora')||t.includes('so chora'))return `em alguns momentos, ${sujeito} expressa desconforto por meio do choro, demonstrando dificuldade em envolver-se nas propostas e necessitando de mediação e acolhimento para reorganizar-se emocionalmente`;
- if(t.includes('mal educado')||t.includes('mal-educado')||t.includes('mal educada')||t.includes('mal-educada'))return `${sujeito} apresenta dificuldade em lidar com alguns limites e combinados, necessitando de mediação para favorecer formas mais adequadas de interação e participação`;
- if(t.includes('doido')||t.includes('doida')||t.includes('louco')||t.includes('louca'))return `${sujeito} apresenta comportamento mais agitado e dificuldade de autorregulação em alguns momentos, necessitando de mediação, acolhimento e direcionamento para participar das propostas`;
- return null;
+function montarTexto(texto,sujeito){
+ const partes=dividir(texto);
+ if(!partes.length)return '';
+ const saidas=partes.map(p=>transformar(p,sujeito)).filter(Boolean);
+ return saidas.map(finalizar).join(' ');
 }
 
-function reescreverFragmento(texto,sujeito){
- texto=limparTexto(texto); if(!texto)return'';
- const suavizado=suavizarTermos(texto,sujeito); if(suavizado)return finalizar(suavizado);
- const t=texto.toLowerCase();
-
- if(t.includes('participou bem')||t.includes('fez bem')||t.includes('bom desempenho'))return finalizar(`${sujeito} participou das propostas com bom envolvimento, demonstrando avanços graduais nas habilidades trabalhadas`);
- if(t.includes('interesse')||t.includes('gostou'))return finalizar(`${sujeito} demonstrou interesse pontual pela proposta, engajando-se na atividade conforme os estímulos apresentados`);
- if(t.includes('vínculo')||t.includes('vinculo'))return finalizar(`${sujeito} estabelece vínculo gradualmente, demonstrando maior abertura mediante rotina estruturada e mediação acolhedora`);
- if(t.includes('tímido')||t.includes('timido'))return finalizar(`${sujeito} aparenta evitar algumas relações interpessoais, necessitando de estímulos para ampliar a convivência social e as trocas com o outro`);
-
- if(t.includes('agitado')||t.includes('correndo'))return finalizar(`${sujeito} apresentou-se mais agitado no início do atendimento, necessitando de mediação para organizar-se e envolver-se gradativamente nas propostas`);
- if(t.includes('não quis fazer')||t.includes('nao quis fazer')||t.includes('não queria fazer')||t.includes('nao queria fazer'))return finalizar(`${sujeito} demonstrou resistência às propostas, sendo necessária a constante adaptação das estratégias para favorecer o engajamento e a participação`);
- if(t.includes('não quis sentar')||t.includes('nao quis sentar'))return finalizar(`${sujeito} apresentou resistência inicial em permanecer sentado, habilidade que segue sendo trabalhada de forma gradual, respeitando seu tempo e suas possibilidades`);
- if(t.includes('não quis dividir')||t.includes('nao quis dividir')||t.includes('não gosta de dividir')||t.includes('nao gosta de dividir')||t.includes('dividir')||t.includes('compartilhar'))return finalizar(`${sujeito} parece não se sentir à vontade ao dividir espaços e materiais de forma coletiva, necessitando de mediação para ampliar a flexibilidade e as trocas sociais`);
- if(t.includes('esperar a vez')||t.includes('aguardar sua vez'))return finalizar(`${sujeito} encontra dificuldade em aguardar sua vez durante as propostas, necessitando de mediação para favorecer a organização e o respeito aos combinados`);
- if(t.includes('regra')||t.includes('desobediente'))return finalizar(`${sujeito} apresenta dificuldade em aceitar algumas regras de convivência, necessitando de retomadas frequentes, combinados claros e mediação durante as propostas`);
- if(t.includes('agressivo')||t.includes('agressiva')||t.includes('violento')||t.includes('violenta')||t.includes('bate')||t.includes('empurra')||t.includes('morde'))return finalizar(`${sujeito} expressa-se, em determinadas situações, por meio de ações físicas para alcançar o que deseja, necessitando de mediação imediata e estratégias de regulação emocional`);
- if(t.includes('mente')||t.includes('mentira'))return finalizar(`${sujeito} justifica-se em alguns momentos apresentando versões controversas, sendo importante a mediação para favorecer maior organização e compreensão das situações vivenciadas`);
- if(t.includes('desligado')||t.includes('distraído')||t.includes('distraido'))return finalizar(`${sujeito} distrai-se com facilidade, necessitando de apoio, retomadas e estímulos direcionados para manter-se envolvido nas propostas`);
-
- if(t.includes('fala demais')||t.includes('fala muito'))return finalizar(`${sujeito} externa suas ideias durante grande parte do período, necessitando de mediação para organizar os turnos de fala e favorecer a escuta do outro`);
- if(t.includes('falou pouco')||t.includes('poucas palavras')||t.includes('fala pouco'))return finalizar(`${sujeito} apresenta repertório verbal em ampliação, utilizando poucas palavras espontaneamente e demonstrando comunicação funcional em desenvolvimento`);
- if(t.includes('não fala')||t.includes('nao fala'))return finalizar(`${sujeito} apresenta comunicação verbal ainda em desenvolvimento, utilizando outras formas de expressão e necessitando de propostas que ampliem suas possibilidades comunicativas`);
- if(t.includes('gesto')||t.includes('gestos'))return finalizar(`${sujeito} utiliza gestos como forma de expressão, demonstrando intenção comunicativa durante as interações`);
- if(t.includes('vocalização')||t.includes('vocalizacao')||t.includes('vocalizações')||t.includes('vocalizacoes'))return finalizar(`${sujeito} utiliza vocalizações como forma de expressão, demonstrando intenção comunicativa e necessidade de continuidade dos estímulos voltados à comunicação funcional`);
- if(t.includes('fonema')||t.includes('pronuncia')||t.includes('pronúncia'))return finalizar(`${sujeito} apresenta dificuldade na articulação de alguns fonemas, aspecto que segue em processo de desenvolvimento e estimulação`);
- if(t.includes('palavr')||t.includes('xing'))return finalizar(`${sujeito} reproduz algumas expressões inadequadas ao contexto, sendo importante a continuidade de propostas que favoreçam a ampliação do repertório comunicativo e o uso funcional da linguagem`);
- if(t.includes('comando'))return finalizar(`${sujeito} responde a comandos simples em alguns momentos, necessitando de repetição, reforço e mediação para ampliar a compreensão das orientações`);
-
- if(t.includes('não aprende')||t.includes('nao aprende')||t.includes('não consegue aprender')||t.includes('nao consegue aprender'))return finalizar(`${sujeito} demonstra dificuldade em compreender e assimilar os conteúdos trabalhados, necessitando de repetição, reforço e estratégias adequadas ao seu ritmo de aprendizagem`);
- if(t.includes('aprende lentamente')||t.includes('devagar'))return finalizar(`${sujeito} precisa de apoio nas atividades propostas, apresentando um ritmo de aprendizagem particular e respondendo melhor mediante direcionamento contínuo`);
- if(t.includes('cores')||t.includes('cor'))return finalizar(`${sujeito} encontra-se em processo de aquisição das habilidades relacionadas ao reconhecimento das cores, respondendo melhor a estímulos concretos, visuais e retomadas frequentes`);
- if(t.includes('número')||t.includes('numero')||t.includes('letra')||t.includes('nome'))return finalizar(`${sujeito} encontra-se em processo de aquisição das habilidades relacionadas a letras e números, necessitando de repetição, reforço e propostas visuais para favorecer a consolidação`);
- if(t.includes('pareamento'))return finalizar(`${sujeito} realizou atividades de pareamento, favorecendo a atenção, a percepção visual e o raciocínio lógico`);
- if(t.includes('quebra'))return finalizar(`${sujeito} participou de atividades com quebra-cabeça, demonstrando envolvimento e necessidade de mediação conforme a complexidade da proposta`);
- if(t.includes('memória')||t.includes('memoria'))return finalizar(`${sujeito} participou de propostas envolvendo memória e raciocínio, habilidades que seguem sendo estimuladas de forma gradativa`);
- if(t.includes('concreto')||t.includes('visual'))return finalizar(`${sujeito} responde melhor a estímulos concretos e visuais, apresentando maior compreensão quando as propostas são estruturadas e mediadas passo a passo`);
-
- if(t.includes('higiene')||t.includes('sujo')||t.includes('banho'))return finalizar(`${sujeito} necessita de apoio em relação a hábitos de higiene pessoal, sendo importante a continuidade dos estímulos voltados à autonomia na rotina diária`);
- if(t.includes('guardou')||t.includes('guardar')||t.includes('organizar'))return finalizar(`${sujeito} colaborou com a organização do ambiente, guardando os materiais ao término das atividades`);
- if(t.includes('desorganizado')||t.includes('desorganizada')||t.includes('relaxado')||t.includes('relaxada'))return finalizar(`${sujeito} necessita de apoio para organizar seus materiais e sua rotina, apresentando dificuldade em cuidar de seus pertences de forma autônoma`);
- if(t.includes('fralda')||t.includes('fraldas'))return finalizar(`${sujeito} ainda faz uso de fraldas, sendo importante a continuidade dos estímulos voltados à ampliação da autonomia na rotina diária`);
- if(t.includes('família não')||t.includes('familia não')||t.includes('família nao')||t.includes('familia nao'))return finalizar(`observa-se que a continuidade dos estímulos no ambiente familiar ainda encontra-se em construção, sendo recomendada maior aproximação dos responsáveis ao processo para potencializar os ganhos observados`);
- if(t.includes('sem rotina'))return finalizar(`${sujeito} demonstra maior dificuldade em contextos com menor estruturação, sendo importante a regularidade dos estímulos para favorecer a generalização das habilidades`);
-
- if(t.includes('carrinho')||t.includes('carrinhos'))return finalizar(`${sujeito} participou de brincadeiras com carrinhos, manipulando os objetos de forma funcional e demonstrando interesse pela proposta`);
- if(t.includes('encaixe')||t.includes('encaixes'))return finalizar(`${sujeito} realizou atividades de encaixe, favorecendo a coordenação motora fina, a atenção e a organização das ações`);
- if(t.includes('pinça')||t.includes('pinca'))return finalizar(`o movimento de pinça encontra-se em processo de desenvolvimento, necessitando de estímulos que favoreçam maior precisão e funcionalidade nas atividades de motricidade fina`);
- if(t.includes('tesoura'))return finalizar(`o uso da tesoura segue em processo de aprimoramento, necessitando de estímulos para maior controle e precisão durante o recorte`);
- if(t.includes('lápis')||t.includes('lapis'))return finalizar(`a pega do lápis encontra-se em desenvolvimento, sendo importante a continuidade de propostas que favoreçam maior controle do traçado`);
- if(t.includes('massinha'))return finalizar(`${sujeito} participou de atividades com massinha, explorando o material e favorecendo estímulos relacionados à força manual, coordenação e criatividade`);
-
- if(t.includes('não vejo progresso')||t.includes('nao vejo progresso')||t.includes('sem progresso')||t.includes('não evolui')||t.includes('nao evolui'))return finalizar(`o processo encontra-se em construção, com intervenções sendo continuamente ajustadas para melhor atender às necessidades do estudante, observando-se janelas de abertura que indicam potencial a ser explorado com continuidade e consistência do trabalho`);
-
- return finalizar(`${sujeito} ${texto}`);
-}
-
-function montarTextoMelhorado(texto,sujeito){
- texto=limparTexto(texto); if(!texto)return'';
- const partes=dividirFrases(texto);
- return partes.map(p=>reescreverFragmento(p,sujeito)).filter(Boolean).join(' ');
-}
-
-function introducaoDaArea(area,sujeito,corpo){
- const c=corpo.toLowerCase();
- if(area==='socializacao') return `observa-se que ${corpo}`;
- if(area==='linguagem') return `observa-se que ${corpo}`;
- if(area==='cognicao') return `observa-se que ${corpo}`;
- if(area==='autocuidados') return `observa-se que ${corpo}`;
- if(area==='motora') return `observa-se que ${corpo}`;
- return corpo;
-}
-
-function fraseArea(area,texto,sujeito){
- texto=limparTexto(texto); if(!texto)return'';
- const corpo=montarTextoMelhorado(texto,sujeito); if(!corpo)return'';
- let ajustado=corpo.charAt(0).toLowerCase()+corpo.slice(1);
- ajustado=introducaoDaArea(area,sujeito,ajustado);
- return `Na área ${area==='autocuidados'?'de autocuidados':'da '+nomeArea(area).toLowerCase()}, ${ajustado}`;
+function montarArea(area,texto,sujeito){
+ texto=limparTexto(texto);
+ if(!texto)return '';
+ const corpo=montarTexto(texto,sujeito);
+ if(!corpo)return '';
+ return `Na área ${area==='autocuidados'?'de autocuidados':'da '+nomeArea(area).toLowerCase()}, ${corpo.charAt(0).toLowerCase()+corpo.slice(1)}`;
 }
 
 function gerarRelatorio(){
- const aluno=limparTexto(document.getElementById('aluno').value),data=document.getElementById('data').value,tipo=document.getElementById('tipo').value,sujeito=document.getElementById('genero').value,modo=document.querySelector('input[name="modo"]:checked').value;
+ const aluno=limparTexto(document.getElementById('aluno').value);
+ const data=document.getElementById('data').value;
+ const tipo=document.getElementById('tipo').value;
+ const sujeito=document.getElementById('genero').value;
+ const modo=document.querySelector('input[name="modo"]:checked').value;
+
  let rel=`${tipo}:\n\n`;
- if(aluno||data)rel+=`${aluno?'Educando(a): '+aluno:''}${aluno&&data?' | ':''}${data?'Data: '+formatarData(data):''}\n\n`;
+ if(aluno||data) rel+=`${aluno?'Educando(a): '+aluno:''}${aluno&&data?' | ':''}${data?'Data: '+formatarData(data):''}\n\n`;
+
  if(modo==='areas'){
-  const textos={socializacao:document.getElementById('socializacao').value,linguagem:document.getElementById('linguagem').value,cognicao:document.getElementById('cognicao').value,autocuidados:document.getElementById('autocuidados').value,motora:document.getElementById('motora').value};
-  ['socializacao','linguagem','cognicao','autocuidados','motora'].forEach(area=>{const p=fraseArea(area,textos[area],sujeito);if(p)rel+=p+'\n\n'});
+  const textos={
+   socializacao:document.getElementById('socializacao').value,
+   linguagem:document.getElementById('linguagem').value,
+   cognicao:document.getElementById('cognicao').value,
+   autocuidados:document.getElementById('autocuidados').value,
+   motora:document.getElementById('motora').value
+  };
+  ['socializacao','linguagem','cognicao','autocuidados','motora'].forEach(area=>{
+   const p=montarArea(area,textos[area],sujeito);
+   if(p) rel+=p+'\n\n';
+  });
   rel+=`De modo geral, ${sujeito} apresenta habilidades em desenvolvimento e necessita da continuidade de estímulos, mediações e propostas estruturadas, respeitando seu ritmo e valorizando os avanços observados ao longo dos atendimentos.`;
  }else{
-  rel+=montarTextoMelhorado(document.getElementById('textoLivre').value,sujeito)||'Escreva suas observações para gerar o relatório.';
+  rel+=montarTexto(document.getElementById('textoLivre').value,sujeito)||'Escreva suas observações para gerar o relatório.';
  }
  document.getElementById('resultado').innerText=rel;
 }
-
-function formatarData(data){const[ano,mes,dia]=data.split('-');return`${dia}/${mes}/${ano}`}
 function copiarRelatorio(){navigator.clipboard.writeText(document.getElementById('resultado').innerText);alert('Relatório copiado!')}
 function baixarWord(){const texto=document.getElementById('resultado').innerText.replace(/\n/g,'<br>');const html=`<html><head><meta charset="UTF-8"></head><body style="font-family:Arial; line-height:1.5;">${texto}</body></html>`;baixarArquivo(new Blob(['\ufeff',html],{type:'application/msword'}),'relatorio.doc')}
 function baixarPDF(){window.print()}
