@@ -252,8 +252,87 @@ function gerarRelatorio(){
  document.getElementById('resultado').innerText=rel;
 }
 function copiarRelatorio(){navigator.clipboard.writeText(document.getElementById('resultado').innerText);alert('Relatório copiado!')}
-function baixarWord(){const texto=document.getElementById('resultado').innerText.replace(/\n/g,'<br>');const html=`<html><head><meta charset="UTF-8"></head><body style="font-family:Arial; line-height:1.5;">${texto}</body></html>`;baixarArquivo(new Blob(['\ufeff',html],{type:'application/msword'}),'relatorio.doc')}
-function baixarPDF(){window.print()}
+function baixarWord(){
+  const texto = document.getElementById('resultado').innerText.replace(/\n/g,'</p><p>');
+
+  const html = `
+  <html>
+  <head>
+    <meta charset="UTF-8">
+    <style>
+      @page{
+        size:A4;
+        margin-top:3cm;
+        margin-left:3cm;
+        margin-right:2cm;
+        margin-bottom:2cm;
+      }
+      body{
+        font-family:Arial,sans-serif;
+        font-size:12pt;
+        line-height:1.5;
+        text-align:justify;
+      }
+      p{
+        text-indent:1.25cm;
+        margin:0 0 12pt 0;
+      }
+    </style>
+  </head>
+  <body>
+    <p>${texto}</p>
+  </body>
+  </html>`;
+
+  baixarArquivo(
+    new Blob(['\ufeff', html], {type:'application/msword'}),
+    'relatorio.doc'
+  );
+}
+function baixarPDF(){
+  const janela = window.open('', '_blank');
+
+  janela.document.write(`
+    <html>
+    <head>
+      <title>Relatório</title>
+      <style>
+        @page{
+          size:A4;
+          margin-top:3cm;
+          margin-left:3cm;
+          margin-right:2cm;
+          margin-bottom:2cm;
+        }
+
+        body{
+          font-family:Arial,sans-serif;
+          font-size:12pt;
+          line-height:1.5;
+          text-align:justify;
+        }
+
+        p{
+          text-indent:1.25cm;
+          margin:0 0 12pt 0;
+        }
+      </style>
+    </head>
+    <body>
+      <p>${
+        document
+          .getElementById('resultado')
+          .innerText
+          .replace(/\n/g,'</p><p>')
+      }</p>
+    </body>
+    </html>
+  `);
+
+  janela.document.close();
+  janela.focus();
+  janela.print();
+}
 function baixarArquivo(blob,nome){const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=nome;a.click();URL.revokeObjectURL(url)}
 function limparTudo(){if(!confirm('Deseja limpar o relatório atual?'))return;document.querySelectorAll('input[type="text"], input[type="date"], textarea').forEach(el=>el.value='');document.getElementById('resultado').innerText='O relatório aparecerá aqui.'}
 </script>
