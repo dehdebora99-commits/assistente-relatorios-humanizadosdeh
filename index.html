@@ -22,53 +22,15 @@ button{border:0;border-radius:12px;padding:13px 18px;font-size:15px;font-weight:
 #resultado{min-height:300px;white-space:pre-wrap;line-height:1.65;font-size:15.5px;background:#fff;border:1px solid #d8c8dd;border-radius:14px;padding:18px}
 .notice{background:#fff7d8;border-left:5px solid #e0b63f;padding:12px 14px;border-radius:10px;font-size:14px;line-height:1.45}
 .small{font-size:13px;color:#6b5a70}
+.gerando{color:#8e5a9f;font-style:italic}
 @media(max-width:760px){.grid{grid-template-columns:1fr}header h1{font-size:23px}}
 @media print{
-  body{
-    background:white;
-    font-family:Arial,Helvetica,sans-serif;
-    font-size:12pt;
-    line-height:1.5;
-    color:#000;
-  }
-
-  header,
-  .no-print,
-  .card.form-card{
-    display:none!important;
-  }
-
-  main{
-    margin:0;
-    max-width:none;
-    padding:0;
-  }
-
-  .card{
-    box-shadow:none;
-    border:none;
-    padding:0;
-    margin:0;
-  }
-
-  #resultado{
-    border:none;
-    padding:0;
-    margin:0;
-    font-family:Arial,Helvetica,sans-serif;
-    font-size:12pt;
-    line-height:1.5;
-    text-align:justify;
-    white-space:pre-wrap;
-  }
-
-  @page{
-    size:A4;
-    margin-top:3cm;
-    margin-left:3cm;
-    margin-right:2cm;
-    margin-bottom:2cm;
-  }
+  body{background:white;font-family:Arial,Helvetica,sans-serif;font-size:12pt;line-height:1.5;color:#000}
+  header,.no-print,.card.form-card{display:none!important}
+  main{margin:0;max-width:none;padding:0}
+  .card{box-shadow:none;border:none;padding:0;margin:0}
+  #resultado{border:none;padding:0;margin:0;font-family:Arial,Helvetica,sans-serif;font-size:12pt;line-height:1.5;text-align:justify;white-space:pre-wrap}
+  @page{size:A4;margin-top:3cm;margin-left:3cm;margin-right:2cm;margin-bottom:2cm}
 }
 </style>
 </head>
@@ -78,8 +40,16 @@ button{border:0;border-radius:12px;padding:13px 18px;font-size:15px;font-weight:
 <p>Gera relatórios com escrita profissional, acolhedora e organizada.</p>
 </header>
 <main>
+
 <section class="card form-card">
 <div class="notice">Este sistema não salva os relatórios. O texto fica apenas na tela enquanto você usa e pode ser baixado no seu computador.</div>
+
+<div style="margin-top:14px">
+<label for="apiKey">Chave da API Gemini</label>
+<input id="apiKey" type="password" placeholder="Cole aqui sua chave do Google AI Studio">
+<p class="small">A chave não é salva nem enviada a nenhum lugar além do Google.</p>
+</div>
+
 <div class="grid">
 <div><label for="aluno">Nome do aluno</label><input id="aluno" placeholder="Ex.: João"></div>
 <div><label for="data">Data</label><input id="data" type="date"></div>
@@ -127,214 +97,138 @@ button{border:0;border-radius:12px;padding:13px 18px;font-size:15px;font-weight:
 
 <script>
 function trocarModo(){
- const modo=document.querySelector('input[name="modo"]:checked').value;
- document.getElementById('modoAreas').classList.toggle('hidden',modo!=='areas');
- document.getElementById('modoLivre').classList.toggle('hidden',modo!=='livre');
+  const modo=document.querySelector('input[name="modo"]:checked').value;
+  document.getElementById('modoAreas').classList.toggle('hidden',modo!=='areas');
+  document.getElementById('modoLivre').classList.toggle('hidden',modo!=='livre');
 }
+
 function limparTexto(txt){return(txt||'').trim().replace(/\s+/g,' ')}
-function finalizar(frase){frase=limparTexto(frase);if(!frase)return'';frase=frase.charAt(0).toUpperCase()+frase.slice(1);if(!/[.!?]$/.test(frase))frase+='.';return frase}
 function formatarData(data){const[ano,mes,dia]=data.split('-');return`${dia}/${mes}/${ano}`}
-function nomeArea(area){return{socializacao:'Socialização',linguagem:'Linguagem',cognicao:'Cognição',autocuidados:'Autocuidados',motora:'Motora'}[area]}
-function tem(t,arr){return arr.some(x=>t.includes(x))}
-function dividir(texto){return limparTexto(texto).split(/[,;\n]+| e também | também | além disso |(?<=\.)\s+/i).map(p=>limparTexto(p.replace(/\.$/,''))).filter(Boolean)}
 
-function transformar(frase,sujeito){
- const original=limparTexto(frase);
- const t=original.toLowerCase();
- if(!original)return '';
+async function gerarRelatorio(){
+  const chave = limparTexto(document.getElementById('apiKey').value);
+  if(!chave){
+    alert('Cole sua chave da API Gemini no campo acima.');
+    return;
+  }
 
- // Preserve intenção: cada regra mantém a dificuldade ou informação original, apenas suaviza.
- if(tem(t,['peste']))return `${sujeito} apresenta comportamentos que desafiam o vínculo relacional durante as propostas, necessitando de mediação constante e estratégias de manejo para favorecer sua participação`;
- if(tem(t,['terrível','terrivel','insuportável','insuportavel']))return `${sujeito} apresenta demandas significativas de suporte, exigindo intervenções frequentes e abordagem individualizada para favorecer seu engajamento nas propostas`;
- if(tem(t,['é ruim','e ruim','muito ruim']))return `${sujeito} demonstra dificuldades em diversas habilidades trabalhadas, necessitando de suporte sistemático, mediação constante e continuidade dos estímulos para favorecer seu progresso`;
- if(tem(t,['é bobo','e bobo','é lento','e lento','burro','não entende nada','nao entende nada']))return `${sujeito} apresenta um ritmo próprio de processamento e compreensão, necessitando de abordagens diferenciadas, repetição e estímulos adequados às suas especificidades para favorecer a aquisição das habilidades trabalhadas`;
- if(tem(t,['não sabe nada','nao sabe nada']))return `${sujeito} ainda se encontra em processo de construção de diferentes habilidades, demandando acompanhamento contínuo e estímulos frequentes para favorecer sua participação e aprendizagem`;
- if(tem(t,['não faz nada','nao faz nada']))return `${sujeito} encontra-se em processo de desenvolvimento da autonomia, respondendo às propostas mediante direcionamento e apoio contínuo do mediador, respeitando seu ritmo e suas possibilidades`;
- if(tem(t,['não consigo nada','nao consigo nada','sem progresso','não evolui','nao evolui']))return `as propostas encontram resistência significativa, sendo necessária a constante adaptação das estratégias para favorecer o engajamento. Observam-se janelas de abertura que indicam potencial a ser explorado com continuidade e consistência do trabalho`;
- if(tem(t,['impossível trabalhar','impossivel trabalhar']))return `em determinados momentos, ${sujeito} apresenta maior dificuldade para envolver-se nas propostas, necessitando de acolhimento, mediação constante e estratégias diferenciadas para favorecer sua participação`;
+  const aluno  = limparTexto(document.getElementById('aluno').value);
+  const data   = document.getElementById('data').value;
+  const tipo   = document.getElementById('tipo').value;
+  const sujeito= document.getElementById('genero').value;
+  const modo   = document.querySelector('input[name="modo"]:checked').value;
 
- // Socialização / comportamento
- if(tem(t,['só briga','so briga','briga muito','brigou','conflito','conflitos']))return `observa-se dificuldade na regulação emocional e nas interações com pares, com episódios de conflito que necessitam de mediação imediata e estratégias de manejo do comportamento`;
- if(tem(t,['só chora','so chora','chorou','choro']))return `${sujeito} expressa desconforto por meio do choro em alguns momentos, necessitando de acolhimento e mediação para reorganizar-se emocionalmente`;
- if(tem(t,['agitado','correndo','inquieto']))return `${sujeito} apresentou-se mais agitado no início do atendimento, necessitando de mediação para organizar-se e envolver-se gradativamente nas propostas`;
- if(tem(t,['teimoso','teimosa']))return `em alguns momentos, ${sujeito} demonstra resistência às propostas e preferência por conduzir as atividades conforme seus interesses, necessitando de mediação para ampliar a flexibilidade e a participação`;
- if(tem(t,['não quis fazer','nao quis fazer','não queria fazer','nao queria fazer','recusou','resistiu']))return `${sujeito} demonstrou resistência às propostas, sendo necessária a adaptação das estratégias para favorecer o engajamento e a participação`;
- if(tem(t,['não quis sentar','nao quis sentar','não para sentado','nao para sentado']))return `${sujeito} apresentou resistência inicial em permanecer sentado, habilidade que segue sendo trabalhada de forma gradual, respeitando seu tempo e suas possibilidades`;
- if(tem(t,['não quis dividir','nao quis dividir','não divide','nao divide','dividir','compartilhar']))return `${sujeito} apresenta dificuldade em compartilhar espaços e materiais de forma coletiva, necessitando de mediação para ampliar a flexibilidade e as trocas sociais`;
- if(tem(t,['esperar a vez','aguardar a vez','aguardar sua vez']))return `${sujeito} encontra dificuldade em aguardar sua vez durante as propostas, necessitando de mediação para favorecer a organização e o respeito aos combinados`;
- if(tem(t,['bate','bateu','empurra','empurrou','morde','mordeu','agressivo','agressiva']))return `${sujeito} expressa-se, em determinadas situações, por meio de ações físicas, necessitando de mediação imediata e estratégias de regulação emocional para favorecer formas mais adequadas de interação`;
- if(tem(t,['regras','regra','limite','limites','desobediente']))return `${sujeito} apresenta dificuldade em aceitar alguns combinados e limites, necessitando de retomadas frequentes, rotina estruturada e mediação durante as propostas`;
- if(tem(t,['desligado','distraído','distraido','sem foco']))return `${sujeito} distrai-se com facilidade, necessitando de apoio, retomadas e estímulos direcionados para manter-se envolvido nas propostas`;
- if(tem(t,['timido','tímido','isolado','isolada','sozinho']))return `${sujeito} demonstra maior reserva nas interações, necessitando de estímulos graduais para ampliar a convivência social, as trocas afetivas e o reconhecimento do outro`;
+  let observacoes = '';
+  if(modo==='areas'){
+    const areas = ['socializacao','linguagem','cognicao','autocuidados','motora'];
+    const nomes = ['Socialização','Linguagem','Cognição','Autocuidados','Motora'];
+    areas.forEach((area,i)=>{
+      const val = limparTexto(document.getElementById(area).value);
+      if(val) observacoes += `${nomes[i]}: ${val}\n`;
+    });
+  } else {
+    observacoes = limparTexto(document.getElementById('textoLivre').value);
+  }
 
- // Linguagem
- if(tem(t,['não fala quase nada','nao fala quase nada','fala quase nada']))return `${sujeito} apresenta repertório verbal reduzido, com comunicação funcional em desenvolvimento. Observa-se resposta a estímulos direcionados, sendo indicada a continuidade de propostas que ampliem as possibilidades comunicativas`;
- if(tem(t,['não fala','nao fala','sem fala']))return `${sujeito} apresenta comunicação verbal ainda em desenvolvimento, utilizando outras formas de expressão e necessitando de propostas que ampliem suas possibilidades comunicativas`;
- if(tem(t,['falou pouco','fala pouco','poucas palavras','comunicação reduzida','comunicacao reduzida']))return `${sujeito} apresenta repertório verbal em ampliação, utilizando poucas palavras espontaneamente e demonstrando comunicação funcional em desenvolvimento`;
- if(tem(t,['palavr','xing']))return `${sujeito} reproduz algumas expressões inadequadas ao contexto, sendo importante a continuidade de propostas que favoreçam a ampliação do repertório comunicativo e o uso funcional da linguagem`;
- if(tem(t,['gesto','gestos','aponta','apontou']))return `${sujeito} utiliza gestos como forma de expressão, demonstrando intenção comunicativa durante as interações`;
- if(tem(t,['vocalização','vocalizacao','vocalizações','vocalizacoes']))return `${sujeito} utiliza vocalizações como forma de expressão, demonstrando intenção comunicativa e necessidade de continuidade dos estímulos voltados à comunicação funcional`;
- if(tem(t,['fonema','pronúncia','pronuncia','fala embolada']))return `${sujeito} apresenta dificuldade na articulação de alguns fonemas, aspecto que segue em processo de desenvolvimento e estimulação`;
- if(tem(t,['comando','comandos']))return `${sujeito} responde a comandos simples em alguns momentos, necessitando de repetição, reforço e mediação para ampliar a compreensão das orientações`;
- if(tem(t,['fala demais','fala muito']))return `${sujeito} externa suas ideias durante grande parte do período, necessitando de mediação para organizar os turnos de fala e favorecer a escuta do outro`;
+  if(!observacoes){
+    document.getElementById('resultado').innerText='Escreva suas observações para gerar o relatório.';
+    return;
+  }
 
- // Cognição
- if(tem(t,['não aprende','nao aprende','não consegue aprender','nao consegue aprender']))return `${sujeito} demonstra dificuldade em compreender e assimilar as habilidades trabalhadas, necessitando de repetição, reforço e estratégias adequadas ao seu ritmo de aprendizagem`;
- if(tem(t,['aprende devagar','aprende lentamente','devagar','lento']))return `${sujeito} apresenta ritmo próprio de aprendizagem, respondendo melhor mediante direcionamento contínuo, repetição e estímulos concretos`;
- if(tem(t,['não reconhece as cores','nao reconhece as cores','não sabe as cores','nao sabe as cores','cores','cor']))return `${sujeito} participa das propostas apresentadas e responde aos estímulos direcionados em momentos pontuais. As habilidades relacionadas ao reconhecimento das cores encontram-se em processo de aquisição, necessitando de repetição, reforço e apoio contínuo para favorecer sua consolidação`;
- if(tem(t,['número','numero','números','numeros','letra','letras','nome']))return `${sujeito} encontra-se em processo de aquisição das habilidades relacionadas a letras e números, necessitando de repetição, reforço e propostas visuais para favorecer a consolidação`;
- if(tem(t,['pareamento']))return `${sujeito} realizou atividades de pareamento, favorecendo a atenção, a percepção visual e o raciocínio lógico`;
- if(tem(t,['quebra-cabeça','quebra cabeça','quebra']))return `${sujeito} participou de atividades com quebra-cabeça, demonstrando envolvimento e necessidade de mediação conforme a complexidade da proposta`;
- if(tem(t,['memória','memoria']))return `${sujeito} participou de propostas envolvendo memória e raciocínio, habilidades que seguem sendo estimuladas de forma gradativa`;
- if(tem(t,['concreto','visual','abstrato']))return `${sujeito} responde melhor a estímulos concretos e visuais, apresentando maior compreensão quando as propostas são estruturadas e mediadas passo a passo`;
+  const el = document.getElementById('resultado');
+  el.innerHTML = '<span class="gerando">Gerando relatório, aguarde...</span>';
 
- // Autocuidados, rotina e família
- if(tem(t,['guardou','guardar','organizou','organizar']))return `${sujeito} colaborou com a organização do ambiente, guardando os materiais ao término das atividades`;
- if(tem(t,['higiene','sujo','banho','mãos','maos','lavou']))return `${sujeito} necessita de apoio em relação aos hábitos de higiene pessoal, sendo importante a continuidade dos estímulos voltados à autonomia na rotina diária`;
- if(tem(t,['fralda','fraldas']))return `${sujeito} ainda faz uso de fraldas, sendo importante a continuidade dos estímulos voltados à ampliação da autonomia na rotina diária`;
- if(tem(t,['desorganizado','desorganizada','relaxado','relaxada']))return `${sujeito} necessita de apoio para organizar seus materiais e sua rotina, apresentando dificuldade em cuidar de seus pertences de forma autônoma`;
- if(tem(t,['família não','familia não','família nao','familia nao','família ausente','familia ausente']))return `observa-se que a continuidade dos estímulos no ambiente familiar ainda se encontra em construção, sendo recomendada maior aproximação dos responsáveis ao processo para potencializar os ganhos observados`;
- if(tem(t,['sem rotina','rotina']))return `${sujeito} demonstra maior dificuldade em contextos com menor estruturação, sendo importante a regularidade dos estímulos para favorecer a generalização das habilidades`;
+  const instrucaoModo = modo==='areas'
+    ? `Organize o texto por áreas de desenvolvimento: Socialização, Linguagem, Cognição, Autocuidados e Motora. Cada área deve formar um parágrafo separado, iniciando com "Na área de..." ou "Na área da...". Inclua apenas as áreas que tiverem observações.`
+    : `Escreva em texto corrido, sem separar por áreas, sem tópicos ou marcadores.`;
 
- // Motora
- if(tem(t,['carrinho','carrinhos']))return `${sujeito} participou de brincadeiras com carrinhos, manipulando os objetos de forma funcional e demonstrando interesse pela proposta`;
- if(tem(t,['encaixe','encaixes']))return `${sujeito} realizou atividades de encaixe, favorecendo a coordenação motora fina, a atenção e a organização das ações`;
- if(tem(t,['pinça','pinca']))return `o movimento de pinça encontra-se em processo de desenvolvimento, necessitando de estímulos que favoreçam maior precisão e funcionalidade nas atividades de motricidade fina`;
- if(tem(t,['tesoura','recorte','recortar']))return `o uso da tesoura e as atividades de recorte seguem em processo de aprimoramento, necessitando de estímulos para maior controle e precisão dos movimentos`;
- if(tem(t,['lápis','lapis','traçado','tracado']))return `a pega do lápis e o controle do traçado encontram-se em desenvolvimento, sendo importante a continuidade de propostas que favoreçam maior precisão motora`;
- if(tem(t,['massinha']))return `${sujeito} participou de atividades com massinha, explorando o material e favorecendo estímulos relacionados à força manual, coordenação e criatividade`;
+  const prompt = `Você é uma pedagoga especialista em educação especial e inclusiva com anos de experiência em relatórios escolares.
 
- // fallback preserva a ideia sem copiar literalmente
- return `observa-se que ${sujeito} apresentou aspectos relacionados à observação registrada, sendo necessário acompanhamento, mediação e propostas estruturadas para favorecer seu desenvolvimento dentro de suas possibilidades`;
+Reescreva as observações abaixo transformando-as em um relatório pedagógico profissional, humanizado e acolhedor para ser compartilhado com famílias e instituições.
+
+REGRAS OBRIGATÓRIAS:
+- Use sempre "${sujeito}" para se referir ao estudante. Nunca use o nome próprio.
+- Linguagem técnica mas acessível, nunca pejorativa ou diminutiva.
+- Preserve todas as informações originais — apenas humanize e profissionalize a escrita.
+- Não invente informações que não estejam nas observações.
+- Português brasileiro formal, texto justificado em parágrafos.
+- Não use marcadores, listas ou tópicos.
+- ${instrucaoModo}
+- Finalize com um parágrafo de encaminhamento geral valorizando os avanços e recomendando continuidade.
+- Não inclua título, cabeçalho, nome do aluno ou data — isso será adicionado automaticamente.
+
+OBSERVAÇÕES:
+${observacoes}`;
+
+  try {
+    const response = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${chave}`,
+      {
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({
+          contents:[{parts:[{text:prompt}]}],
+          generationConfig:{temperature:0.7,maxOutputTokens:1500}
+        })
+      }
+    );
+
+    if(!response.ok){
+      const err = await response.json();
+      el.innerText = `Erro da API: ${err?.error?.message || response.status}`;
+      return;
+    }
+
+    const dados = await response.json();
+    const texto = dados.candidates?.[0]?.content?.parts?.[0]?.text || '';
+
+    if(!texto){
+      el.innerText='A API não retornou texto. Tente novamente.';
+      return;
+    }
+
+    let rel = `${tipo}:\n\n`;
+    if(aluno||data) rel+=`${aluno?'Educando(a): '+aluno:''}${aluno&&data?' | ':''}${data?'Data: '+formatarData(data):''}\n\n`;
+    rel += texto.trim();
+
+    el.innerText = rel;
+
+  } catch(e){
+    el.innerText = 'Erro de conexão. Verifique sua internet e tente novamente.';
+  }
 }
 
-function montarTexto(texto,sujeito){
- const partes=dividir(texto);
- if(!partes.length)return '';
- const saidas=partes.map(p=>transformar(p,sujeito)).filter(Boolean);
- return saidas.map(finalizar).join(' ');
+function copiarRelatorio(){
+  navigator.clipboard.writeText(document.getElementById('resultado').innerText);
+  alert('Relatório copiado!');
 }
 
-function montarArea(area,texto,sujeito){
- texto=limparTexto(texto);
- if(!texto)return '';
- const corpo=montarTexto(texto,sujeito);
- if(!corpo)return '';
- return `Na área ${area==='autocuidados'?'de autocuidados':'da '+nomeArea(area).toLowerCase()}, ${corpo.charAt(0).toLowerCase()+corpo.slice(1)}`;
-}
-
-function gerarRelatorio(){
- const aluno=limparTexto(document.getElementById('aluno').value);
- const data=document.getElementById('data').value;
- const tipo=document.getElementById('tipo').value;
- const sujeito=document.getElementById('genero').value;
- const modo=document.querySelector('input[name="modo"]:checked').value;
-
- let rel=`${tipo}:\n\n`;
- if(aluno||data) rel+=`${aluno?'Educando(a): '+aluno:''}${aluno&&data?' | ':''}${data?'Data: '+formatarData(data):''}\n\n`;
-
- if(modo==='areas'){
-  const textos={
-   socializacao:document.getElementById('socializacao').value,
-   linguagem:document.getElementById('linguagem').value,
-   cognicao:document.getElementById('cognicao').value,
-   autocuidados:document.getElementById('autocuidados').value,
-   motora:document.getElementById('motora').value
-  };
-  ['socializacao','linguagem','cognicao','autocuidados','motora'].forEach(area=>{
-   const p=montarArea(area,textos[area],sujeito);
-   if(p) rel+=p+'\n\n';
-  });
-  rel+=`De modo geral, ${sujeito} apresenta habilidades em desenvolvimento e necessita da continuidade de estímulos, mediações e propostas estruturadas, respeitando seu ritmo e valorizando os avanços observados ao longo dos atendimentos.`;
- }else{
-  rel+=montarTexto(document.getElementById('textoLivre').value,sujeito)||'Escreva suas observações para gerar o relatório.';
- }
- document.getElementById('resultado').innerText=rel;
-}
-function copiarRelatorio(){navigator.clipboard.writeText(document.getElementById('resultado').innerText);alert('Relatório copiado!')}
 function baixarWord(){
   const texto = document.getElementById('resultado').innerText.replace(/\n/g,'</p><p>');
-
-  const html = `
-  <html>
-  <head>
-    <meta charset="UTF-8">
-    <style>
-      @page{
-        size:A4;
-        margin-top:3cm;
-        margin-left:3cm;
-        margin-right:2cm;
-        margin-bottom:2cm;
-      }
-      body{
-        font-family:Arial,sans-serif;
-        font-size:12pt;
-        line-height:1.5;
-        text-align:justify;
-      }
-      p{
-        text-indent:1.25cm;
-        margin:0 0 12pt 0;
-      }
-    </style>
-  </head>
-  <body>
-    <p>${texto}</p>
-  </body>
-  </html>`;
-
-  baixarArquivo(
-    new Blob(['\ufeff', html], {type:'application/msword'}),
-    'relatorio.doc'
-  );
+  const html = `<html><head><meta charset="UTF-8"><style>@page{size:A4;margin-top:3cm;margin-left:3cm;margin-right:2cm;margin-bottom:2cm}body{font-family:Arial,sans-serif;font-size:12pt;line-height:1.5;text-align:justify}p{text-indent:1.25cm;margin:0 0 12pt 0}</style></head><body><p>${texto}</p></body></html>`;
+  baixarArquivo(new Blob(['\ufeff',html],{type:'application/msword'}),'relatorio.doc');
 }
+
 function baixarPDF(){
-  const janela = window.open('', '_blank');
-
-  janela.document.write(`
-    <html>
-    <head>
-      <title>Relatório</title>
-      <style>
-        @page{
-          size:A4;
-          margin-top:3cm;
-          margin-left:3cm;
-          margin-right:2cm;
-          margin-bottom:2cm;
-        }
-
-        body{
-          font-family:Arial,sans-serif;
-          font-size:12pt;
-          line-height:1.5;
-          text-align:justify;
-        }
-
-        p{
-          text-indent:1.25cm;
-          margin:0 0 12pt 0;
-        }
-      </style>
-    </head>
-    <body>
-      <p>${
-        document
-          .getElementById('resultado')
-          .innerText
-          .replace(/\n/g,'</p><p>')
-      }</p>
-    </body>
-    </html>
-  `);
-
+  const janela=window.open('','_blank');
+  janela.document.write(`<html><head><title>Relatório</title><style>@page{size:A4;margin-top:3cm;margin-left:3cm;margin-right:2cm;margin-bottom:2cm}body{font-family:Arial,sans-serif;font-size:12pt;line-height:1.5;text-align:justify}p{text-indent:1.25cm;margin:0 0 12pt 0}</style></head><body><p>${document.getElementById('resultado').innerText.replace(/\n/g,'</p><p>')}</p></body></html>`);
   janela.document.close();
   janela.focus();
   janela.print();
 }
-function baixarArquivo(blob,nome){const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=nome;a.click();URL.revokeObjectURL(url)}
-function limparTudo(){if(!confirm('Deseja limpar o relatório atual?'))return;document.querySelectorAll('input[type="text"], input[type="date"], textarea').forEach(el=>el.value='');document.getElementById('resultado').innerText='O relatório aparecerá aqui.'}
+
+function baixarArquivo(blob,nome){
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;a.download=nome;a.click();
+  URL.revokeObjectURL(url);
+}
+
+function limparTudo(){
+  if(!confirm('Deseja limpar o relatório atual?'))return;
+  document.querySelectorAll('input[type="text"],input[type="date"],input[type="password"],textarea').forEach(el=>el.value='');
+  document.getElementById('resultado').innerText='O relatório aparecerá aqui.';
+}
 </script>
 </body>
 </html>
