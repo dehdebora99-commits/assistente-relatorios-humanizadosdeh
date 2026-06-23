@@ -96,6 +96,7 @@ button{border:0;border-radius:12px;padding:13px 18px;font-size:15px;font-weight:
 </main>
 
 <script>
+let ultimoCliqueGemini = 0;
 function trocarModo(){
   const modo=document.querySelector('input[name="modo"]:checked').value;
   document.getElementById('modoAreas').classList.toggle('hidden',modo!=='areas');
@@ -106,6 +107,13 @@ function limparTexto(txt){return(txt||'').trim().replace(/\s+/g,' ')}
 function formatarData(data){const[ano,mes,dia]=data.split('-');return`${dia}/${mes}/${ano}`}
 
 async function gerarRelatorio(){
+  const agora = Date.now();
+  if(agora - ultimoCliqueGemini < 15000){
+    document.getElementById('resultado').innerText = 'Aguarde alguns segundos antes de gerar outro relatório. Isso evita estourar o limite gratuito da API.';
+    return;
+  }
+  ultimoCliqueGemini = agora;
+
   const chave = limparTexto(document.getElementById('apiKey').value);
   if(!chave){
     alert('Cole sua chave da API Gemini no campo acima.');
@@ -136,6 +144,8 @@ async function gerarRelatorio(){
   }
 
   const el = document.getElementById('resultado');
+  const botaoGerar = document.querySelector('button.primary');
+  if(botaoGerar) botaoGerar.disabled = true;
   el.innerHTML = '<span class="gerando">Gerando relatório, aguarde...</span>';
 
   const instrucaoModo = modo==='areas'
@@ -162,20 +172,26 @@ ${observacoes}`;
 
   try {
     const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${chave}`,
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${chave}`,
       {
         method:'POST',
         headers:{'Content-Type':'application/json'},
         body: JSON.stringify({
           contents:[{parts:[{text:prompt}]}],
-          generationConfig:{temperature:0.7,maxOutputTokens:1500}
+          generationConfig:{temperature:0.4,maxOutputTokens:1500}
         })
       }
     );
 
     if(!response.ok){
       const err = await response.json();
-      el.innerText = `Erro da API: ${err?.error?.message || response.status}`;
+      const msg = err?.error?.message || response.status;
+      if(String(msg).toLowerCase().includes('quota') || String(msg).toLowerCase().includes('rate')){
+        el.innerText = 'Limite gratuito da API atingido. Aguarde alguns minutos e tente novamente. Evite clicar várias vezes seguidas em Gerar relatório.';
+      }else{
+        el.innerText = `Erro da API: ${msg}`;
+      }
+      if(botaoGerar) botaoGerar.disabled = false;
       return;
     }
 
@@ -184,6 +200,7 @@ ${observacoes}`;
 
     if(!texto){
       el.innerText='A API não retornou texto. Tente novamente.';
+      if(botaoGerar) botaoGerar.disabled = false;
       return;
     }
 
@@ -192,9 +209,11 @@ ${observacoes}`;
     rel += texto.trim();
 
     el.innerText = rel;
+    if(botaoGerar) botaoGerar.disabled = false;
 
   } catch(e){
     el.innerText = 'Erro de conexão. Verifique sua internet e tente novamente.';
+    if(botaoGerar) botaoGerar.disabled = false;
   }
 }
 
@@ -232,3 +251,4 @@ function limparTudo(){
 </script>
 </body>
 </html>
+HTMLEOF
