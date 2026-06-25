@@ -144,19 +144,17 @@ async function gerarRelatorio(){
     ? `Organize o texto por áreas de desenvolvimento: Socialização, Linguagem, Cognição, Autocuidados e Motora. Cada área deve formar um parágrafo separado, iniciando com "Na área de..." ou "Na área da...". Inclua apenas as áreas que tiverem observações.`
     : `Escreva em texto corrido, sem separar por áreas, sem tópicos ou marcadores.`;
 
-  const prompt = `Você é uma pedagoga especialista em educação especial e inclusiva com anos de experiência em relatórios escolares.
+  const prompt = `Você é uma pedagoga especialista em educação especial e inclusiva. Reescreva as observações abaixo em linguagem técnica, humanizada e acolhedora.
 
-Reescreva as observações abaixo transformando-as em um relatório pedagógico profissional, humanizado e acolhedor para ser compartilhado com famílias e instituições.
-
-REGRAS OBRIGATÓRIAS:
+REGRAS OBRIGATÓRIAS — SIGA À RISCA:
 - Use sempre "${sujeito}" para se referir ao estudante. Nunca use o nome próprio.
-- Linguagem técnica mas acessível, nunca pejorativa ou diminutiva.
-- Preserve todas as informações originais — apenas humanize e profissionalize a escrita.
-- Não invente informações que não estejam nas observações.
-- Português brasileiro formal, texto em parágrafos.
-- Não use marcadores, listas ou tópicos.
+- Reescreva APENAS o que está escrito nas observações. JAMAIS invente, suponha ou acrescente informações que não foram fornecidas.
+- Se uma área não tiver observação, NÃO escreva nada sobre ela. Nem uma frase sequer.
+- Cada observação deve gerar NO MÁXIMO 2 frases curtas. Não expanda além do que foi escrito.
+- Preserve o conteúdo original — apenas melhore a redação, suavize termos pejorativos e profissionalize a linguagem.
+- Português brasileiro formal, sem marcadores ou listas.
 - ${instrucaoModo}
-- Finalize com um parágrafo de encaminhamento geral valorizando os avanços e recomendando continuidade.
+- Finalize com apenas 1 frase curta de encaminhamento.
 - Não inclua título, cabeçalho, nome do aluno ou data.
 
 OBSERVAÇÕES:
